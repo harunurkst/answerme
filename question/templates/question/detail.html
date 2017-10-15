@@ -1,0 +1,20 @@
+{% extends 'question/base.html' %}
+
+{% block title %}{{ block.super }} | all question{% endblock %}
+
+
+{% block content %}
+    <strong>question: </strong>{{ question.text }}<br /><br />
+    <strong>asked by: </strong>{% if question.user %}
+                                    {{ question.user }}
+                                {% else %}
+                                    Anonymous User
+                                {% endif %}<br />
+
+    <strong>asked at: </strong>{{ question.created }}<br />
+    <strong>last update: </strong>{{ question.updated }}<br />
+    <strong>total vote: </strong>{{ question.upvote }}<br />
+
+    <hr />
+    <a href="{% url 'question:index' %}">return home</a>
+{% endblock %}
