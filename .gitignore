@@ -110,5 +110,3 @@ venv.bak/
 #Database
 *.sqlite3
 
-# pyc files
-.pyc
