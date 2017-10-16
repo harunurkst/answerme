@@ -16,5 +16,42 @@
     <strong>total vote: </strong>{{ question.upvote }}<br />
 
     <hr />
+    <div style="margin-left:20px;margin-top:20px">
+        {% if answer_saved %}
+            <p style="color:green">Your submitted answer has been added!</p>
+        {% endif %}
+
+        {% if question.answer_set.all %}
+            <p>Answers</p>
+            {% for answer in question.answer_set.all %}
+                <p><strong>{{ answer.text }}</strong></p>
+                <p>by: {% if question.user %}
+                        {{ question.user }}
+                    {% else %}
+                        Anonymous User
+                    {% endif %}</p>
+
+                <p>created at: {{ answer.created }}</p>
+
+                <p>{% if answer.accepted %}
+                        <strong style="color:forestgreen">Eccepted Answer</strong>
+                    {% endif %}
+                </p>
+                <hr />
+            {% endfor %}
+        {% endif %}
+
+        <h6>Add answer</h6>
+        <div class="container">
+            <form action="" method="POST" class="mt-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ answer_form.as_p }}
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+
     <a href="{% url 'question:index' %}">return home</a>
 {% endblock %}

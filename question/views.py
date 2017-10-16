@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
-from django.views.generic import DetailView
+from django.shortcuts import render, redirect, get_object_or_404
 
-from .forms import QuestionForm
 from .models import Question
+from .forms import QuestionForm
+from answer.models import Answer
+from answer.forms import AnswerForm
 
 
 def index(request):
@@ -33,6 +34,33 @@ def add_question(request):
     return render(request, 'question/add_question.html', {'form':form})
 
 
-class QuestionDetail(DetailView):
-    model = Question
-    template_name = 'question/detail.html'
+def question_detail(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    context = {'question':question}
+
+    if request.method == 'POST':
+        answer_form = AnswerForm(request.POST)
+
+        if answer_form.is_valid():
+            answer_text = answer_form.cleaned_data.get('text')
+
+            #creating new answer for this question
+            new_answer = Answer()
+            new_answer.text = answer_text
+            if request.user.is_authenticated():
+                new_answer.user = request.user
+            new_answer.question = question
+            new_answer.save()
+
+            #message for successful save
+            context['answer_saved']=True
+            answer_form = AnswerForm()
+
+        context['answer_form'] = answer_form
+        return render(request, 'question/detail.html', context)
+
+    else:
+        answer_form = AnswerForm()
+        context['answer_form']=answer_form
+
+    return render(request, 'question/detail.html', context)
