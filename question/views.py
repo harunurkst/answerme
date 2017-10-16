@@ -1,22 +1,66 @@
-from django.shortcuts import render
-from .forms import QuestionForm
+from django.shortcuts import render, redirect, get_object_or_404
+
 from .models import Question
-from django.shortcuts import redirect
+from .forms import QuestionForm
+from answer.models import Answer
+from answer.forms import AnswerForm
 
 
-def home(request):
-    form = QuestionForm
-    questions = Question.objects.order_by('-date')
+def index(request):
+    questions = Question.objects.filter(is_banned=False)
+    context = {'questions': questions}
+    return render(request, 'question/index.html', context)
+
+
+def add_question(request):
+    context = {}
     if request.method == 'POST':
-        form = QuestionForm(request.POST)
+        form = QuestionForm(request.POST) # form instance for post request
+        context['form']= form
+
         if form.is_valid():
-            form.save()
+            qs_text = form.cleaned_data.get('text')
+            # creating new question on database
+            q = Question()
+            q.text = qs_text
+            if request.user.is_authenticated():
+                q.user = request.user
+            q.save()
             return redirect('/')
-
-    if request.user.is_authenticated():
-        user_name = request.user.name
     else:
-        user_name = request.user
+        form = QuestionForm() # form instance for get request
+        context['form']=form
 
-    context = {'form': form, 'questions': questions, 'user_name': user_name}
-    return render(request, 'index.html', context)
+    return render(request, 'question/add_question.html', {'form':form})
+
+
+def question_detail(request, pk):
+    question = get_object_or_404(Question, pk=pk)
+    context = {'question':question}
+
+    if request.method == 'POST':
+        answer_form = AnswerForm(request.POST)
+
+        if answer_form.is_valid():
+            answer_text = answer_form.cleaned_data.get('text')
+
+            #creating new answer for this question
+            new_answer = Answer()
+            new_answer.text = answer_text
+            if request.user.is_authenticated():
+                new_answer.user = request.user
+            new_answer.question = question
+            new_answer.save()
+
+            #message for successful save
+            context['answer_saved']=True
+            answer_form = AnswerForm()
+
+        context['answer_form'] = answer_form
+        return render(request, 'question/detail.html', context)
+
+    else:
+        answer_form = AnswerForm()
+        context['answer_form']=answer_form
+
+    return render(request, 'question/detail.html', context)

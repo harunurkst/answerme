@@ -1,0 +1,30 @@
+{% extends 'question/base.html' %}
+
+{% block title %}{{ block.super }} | all question{% endblock %}
+
+
+{% block content %}
+  <h2>All Questions</h2>
+  <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
+      {% for question in questions %}
+          <div class="card mt-2">
+              <div class="card-header card-title">
+                  Asked by: <small>{% if question.user %}
+                                      {{ question.user.username }}
+                                {% else %}
+                                      Anonymous User
+                                {% endif %}
+                            </small>
+              </div>
+              <div class="card-block card-text p-2">
+                  <p class="ml-2">{{ question }}</p>
+
+                  <p><small>Total Answer: {{ question.answer_set.count }}
+                    <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
+                  </small></p>
+              </div>
+          </div>
+      {% endfor %}
+{% endblock %}
+
+
