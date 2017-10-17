@@ -25,8 +25,8 @@
             <p>Answers</p>
             {% for answer in question.answer_set.all %}
                 <p><strong>{{ answer.text }}</strong></p>
-                <p>by: {% if question.user %}
-                        {{ question.user }}
+                <p>by: {% if answer.user %}
+                        {{ answer.user }}
                     {% else %}
                         Anonymous User
                     {% endif %}</p>

@@ -109,6 +109,10 @@ venv.bak/
 
 #Database
 *.sqlite3
+db.sqlite3
 
-# pyc files
-.pyc
+
+#pycharm
+.idea/
+
+
