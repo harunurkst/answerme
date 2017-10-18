@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Question
 from .forms import QuestionForm
@@ -7,10 +8,22 @@ from answer.forms import AnswerForm
 
 
 def index(request):
+    # retrieve question queryset
     questions = Question.objects.filter(is_banned=False)
+
+    #add paginator
+    page = request.GET.get('page', 1)
+    paginator = Paginator(questions, 10) # 10 question per page
+    try:
+        questions = paginator.page(page)
+    except PageNotAnInteger:
+        questions = paginator.page(1)
+    except EmptyPage:
+        questions = paginator.page(paginator.num_pages)
+
+    #adding page object to context
     context = {'questions': questions}
     return render(request, 'question/index.html', context)
-
 
 def add_question(request):
     context = {}
@@ -64,3 +77,4 @@ def question_detail(request, pk):
         context['answer_form']=answer_form
 
     return render(request, 'question/detail.html', context)
+
