@@ -4,6 +4,9 @@
 
 
 {% block content %}
+    <div>
+    {% include 'question/snippets/question_form.html' %}
+    </div>
 
     <h2>All Questions</h2>
     <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
@@ -28,6 +31,17 @@
                                 <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
                             </small>
                         </p>
+                        <div style="margin-left:20px;margin-top:20px">
+                            {% for answer in question.answer_set.all %}
+                                <small>{{ answer.text }}</small>
+                                <small><strong>by: {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong></small><br>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            {% include 'question/snippets/answer_form.html' %}
+                        </div>
+
                     </div>
                 </div>
             </div>
