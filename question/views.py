@@ -56,7 +56,8 @@ def question_detail(request, pk):
             answer_form = AnswerForm()
 
         context['answer_form'] = answer_form
-        return render(request, 'question/detail.html', context)
+        # return render(request, 'question/detail.html', context)
+        return redirect(request.META['HTTP_REFERER']) # redirect to same url (where form was submitted )
 
     else:
         answer_form = AnswerForm()
