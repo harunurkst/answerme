@@ -4,27 +4,71 @@
 
 
 {% block content %}
-  <h2>All Questions</h2>
-  <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
-      {% for question in questions %}
-          <div class="card mt-2">
-              <div class="card-header card-title">
-                  Asked by: <small>{% if question.user %}
-                                      {{ question.user.username }}
-                                {% else %}
-                                      Anonymous User
-                                {% endif %}
-                            </small>
-              </div>
-              <div class="card-block card-text p-2">
-                  <p class="ml-2">{{ question }}</p>
+    <div>
+    {% include 'question/snippets/question_form.html' %}
+    </div>
 
-                  <p><small>Total Answer: {{ question.answer_set.count }}
-                    <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
-                  </small></p>
-              </div>
-          </div>
-      {% endfor %}
+    <h2>All Questions</h2>
+    <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
+    <div class="infinite-container">
+        {% for question in questions %}
+            <div class="infinite-item">
+                <div class="card mt-2">
+                    <div class="card-header card-title">
+                        Asked by:
+                        <small>{% if question.user %}
+                            {{ question.user.username }}
+                        {% else %}
+                            Anonymous User
+                        {% endif %}
+                        </small>
+                    </div>
+                    <div class="card-block card-text p-2">
+                        <p class="ml-2">{{ question }}</p>
+
+                        <p>
+                            <small>Total Answer: {{ question.answer_set.count }}
+                                <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
+                            </small>
+                        </p>
+                        <div style="margin-left:20px;margin-top:20px">
+                            {% for answer in question.answer_set.all %}
+                                <small>{{ answer.text }}</small>
+                                <small><strong>by: {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong></small><br>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            {% include 'question/snippets/answer_form.html' %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if questions.has_next %}
+        <a class="infinite-more-link" href="?page={{ questions.next_page_number }}">More...</a>
+    {% endif %}
+
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+    {% block javascript %}
+        <script>
+            var infinite = new Waypoint.Infinite({
+                element: $('.infinite-container')[0],
+                onBeforePageLoad: function () {
+                    $('.loading').show();
+                },
+                onAfterPageLoad: function ($items) {
+                    $('.loading').hide();
+                }
+            });
+        </script>
+
+    {% endblock %}
 {% endblock %}
 
 

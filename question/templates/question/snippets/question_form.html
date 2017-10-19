@@ -1,0 +1,7 @@
+<form action="{% url 'question:add_question' %}" method="POST" class="mt-3">
+    {% csrf_token %}
+    <div class="form-group">
+        {{ question_form.as_p }}
+        <input type="submit" value="Ask" class="btn btn-primary">
+    </div>
+</form>
