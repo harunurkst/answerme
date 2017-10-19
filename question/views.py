@@ -69,7 +69,7 @@ def add_question(request):
     context = {}
     if request.method == 'POST':
         question_form = QuestionForm(request.POST) # form instance for post request
-        context['form']= question_form
+        context['question_form']= question_form
 
         if question_form.is_valid():
             qs_text = question_form.cleaned_data.get('text')
@@ -82,6 +82,6 @@ def add_question(request):
             return redirect('question:detail', pk=qs.id)
     else:
         question_form = QuestionForm() # form instance for get request
-        context['form']=question_form
+        context['question_form']=question_form
 
-    return render(request, 'question/add_question.html', {'form':question_form})
+    return render(request, 'question/add_question.html', context)
