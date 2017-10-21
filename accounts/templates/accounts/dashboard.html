@@ -22,7 +22,7 @@
     <div>
         <strong>your all questions</strong><br/>
         {% for question in question_list %}
-            {{ question.text }}  --{{ question.created }}
+            <p>{{ question.text }}  --{{ question.created }}</p>
         {% empty %}
             <i>you have not asked any question yet.</i>
         {% endfor %}
