@@ -1,0 +1,17 @@
+<div class="header">
+    <h1>Dashboard</h1>
+    <h3>HI {% if user.first_name %}
+        <i>{{ user.first_name }} {{ user.last_name }}
+            {% else %}</i>
+        {{ user.username }}
+    {% endif %}
+    </h3>
+
+    <nav >
+        <ul>
+            <li><a href="{% url 'question:index' %}">home</a></li>
+            <li><a href="{% url 'accounts:dashboard' %}">dashboard</a></li>
+            <li><a href="#">logout</a></li>
+        </ul>
+    </nav>
+</div>

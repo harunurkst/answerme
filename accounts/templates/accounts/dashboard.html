@@ -1,0 +1,31 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+    <div>
+        <img src="{% if user.profile.photo %}
+                        {{ user.profile.photo.url }}
+                    {% else %}
+                        https://qph.ec.quoracdn.net/main-qimg-7ca600a4562ef6a81f4dc2bd5c99fee9-c
+                    {% endif %}" height="200px" width="200px"/>
+
+        <p>username: {{ user.username }}</p>
+        <p>first name: {{ user.first_name }}</p>
+        <p>last name: {{ user.last_name }}</p>
+        <p>email: {{ user.email }}</p>
+        <p>website: {{ user.profile.website }}</p>
+        <p>location: {{ user.profile.location }}</p>
+
+        <strong><a href="{% url 'accounts:edit_profile' %}">edit profile</a></strong>
+    </div>
+    <br/><hr/>
+
+    <div>
+        <strong>your all questions</strong><br/>
+        {% for question in question_list %}
+            {{ question.text }}  --{{ question.created }}
+        {% empty %}
+            <i>you have not asked any question yet.</i>
+        {% endfor %}
+    </div>
+
+{% endblock %}
