@@ -16,7 +16,11 @@
                 <div class="card mt-2">
                     <div class="card-header card-title">
                         <a class="media-left" href="#">
-                            <img alt="" class="media-object img-rounded" src="http://placehold.it/64x64">
+                            <img alt="" class="media-object img-rounded" src="{% if question.user.profile.photo %}
+                                                                                    {{ question.user.profile.photo.url }}
+                                                                                {% else %}
+                                                                                    http://placehold.it/64x64
+                                                                                 {% endif %}" height="100px" width="100px">
                         </a>
                         Asked by:
                         <small>{% if question.user %}
