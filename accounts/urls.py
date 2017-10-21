@@ -6,6 +6,9 @@ from accounts import views
 app_name = 'accounts' # app namespace for url revers
 
 urlpatterns = [
-    url(r'^dashboard/$', views.dashboard, name='dashboard'),
-    url(r'^dashboard/edit_profile/$', views.update_profile, name='edit_profile'),
+    url(r'^profile/$', views.dashboard, name='profile'),
+    url(r'^profile/edit/$', views.update_profile, name='edit_profile'),
+
+    url(r'^login/$', views.user_login, name='login'),
+    url(r'^logout/$', views.user_logout, name='logout'),
 ]
