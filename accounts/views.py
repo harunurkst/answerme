@@ -25,6 +25,7 @@ def update_profile(request):
             current_user = get_object_or_404(User, pk=request.user.pk)
             current_user.first_name = user_form.cleaned_data.get('first_name')
             current_user.last_name = user_form.cleaned_data.get('last_name')
+            current_user.email = user_form.cleaned_data.get('email')
 
             current_user.profile.photo = profile_form.cleaned_data.get('photo', 'photo not added yet.')
             current_user.profile.website = profile_form.cleaned_data.get('website')
