@@ -5,7 +5,7 @@
 
 {% block content %}
     <div>
-    {% include 'question/snippets/question_form.html' %}
+        {% include 'question/snippets/question_form.html' %}
     </div>
 
     <h2>All Questions</h2>
@@ -15,6 +15,13 @@
             <div class="infinite-item">
                 <div class="card mt-2">
                     <div class="card-header card-title">
+                        <a class="media-left" href="#">
+                            <img alt="" class="media-object img-rounded" src="{% if question.user.profile.photo %}
+                                                                                    {{ question.user.profile.photo.url }}
+                                                                                {% else %}
+                                                                                    http://placehold.it/64x64
+                                                                                 {% endif %}" height="100px" width="100px">
+                        </a>
                         Asked by:
                         <small>{% if question.user %}
                             {{ question.user.username }}
@@ -33,8 +40,11 @@
                         </p>
                         <div style="margin-left:20px;margin-top:20px">
                             {% for answer in question.answer_set.all %}
-                                <small>{{ answer.text }}</small>
-                                <small><strong>by: {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong></small><br>
+                                
+                                <small><strong>
+                                    {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong>
+                                </small>
+                                <small>{{ answer.text }}</small><br>
                             {% endfor %}
                         </div>
 
@@ -49,12 +59,16 @@
     </div>
 
     {% if questions.has_next %}
-        <a class="infinite-more-link" href="?page={{ questions.next_page_number }}">More...</a>
+        <a class="infinite-more-link" href="?page={{ questions.next_page_number }}">More</a>
     {% endif %}
 
     <div class="loading" style="display: none;">
         Loading...
     </div>
+
+    {% comment %}
+    javascripts snippets specifit for these page
+    {% endcomment %}
     {% block javascript %}
         <script>
             var infinite = new Waypoint.Infinite({

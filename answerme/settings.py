@@ -38,9 +38,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #isntalled apps
+
     #custom apps
     'question',
     'answer',
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -127,6 +130,13 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # The URL to use when referring to static files (where they will be served from)
 STATIC_URL = '/static/'
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# URL that handles the media served from MEDIA_ROOT.
+MEDIA_URL = '/media/'
+
 
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/

@@ -1,0 +1,25 @@
+<div class="header">
+    <h1>Dashboard</h1>
+    <h3>
+        {% if request.user.is_authenticated %}
+            Hi!
+            {% if user.first_name %}
+                 <i>{{ user.first_name }} {{ user.last_name }}
+            {% else %}</i>
+                    {{ user.username }}
+            {% endif %}
+        {% endif %}
+    </h3>
+
+    <nav>
+        <ul style="display:inline-block;list-style: none">
+            <li><a href="{% url 'question:index' %}">home</a></li>
+            {% if request.user.is_authenticated %}
+                <li><a href="{% url 'accounts:profile' %}">profile</a></li>
+                <li><a href="{% url 'accounts:logout' %}">logout</a></li>
+            {% else %}
+                <li><a href="{% url 'accounts:login' %}">login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+</div>

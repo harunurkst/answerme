@@ -3,7 +3,7 @@ from django.conf.urls import url
 from question import views
 
 
-app_name = 'question' #url namespace for this app
+app_name = 'question' # app namespace for url revers
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
