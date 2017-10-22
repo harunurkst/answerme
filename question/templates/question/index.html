@@ -20,7 +20,8 @@
                                                                                     {{ question.user.profile.photo.url }}
                                                                                 {% else %}
                                                                                     http://placehold.it/64x64
-                                                                                 {% endif %}" height="100px" width="100px">
+                                                                                 {% endif %}" height="100px"
+                                 width="100px">
                         </a>
                         Asked by:
                         <small>{% if question.user %}
@@ -43,11 +44,11 @@
                         </p>
                         <div style="margin-left:20px;margin-top:20px">
                             {% for answer in question.answers.all %}
+
                                 <small><strong>
                                     {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong>
                                 </small>
                                 <small>{{ answer.text }}</small><br>
-
                             {% endfor %}
                         </div>
 
