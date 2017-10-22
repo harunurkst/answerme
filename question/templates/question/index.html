@@ -40,10 +40,11 @@
                         </p>
                         <div style="margin-left:20px;margin-top:20px">
                             {% for answer in question.answer_set.all %}
-                                <small>{{ answer.text }}</small>
-                                <small><strong>by:
+                                
+                                <small><strong>
                                     {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong>
-                                </small><br>
+                                </small>
+                                <small>{{ answer.text }}</small><br>
                             {% endfor %}
                         </div>
 
