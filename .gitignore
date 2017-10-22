@@ -107,10 +107,6 @@ venv.bak/
 # Text backup files
 *.bak
 
-#Database
-*.sqlite3
-db.sqlite3
-
 
 #pycharm
 .idea/

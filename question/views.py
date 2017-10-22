@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
+
 
 from .models import Question
 from .forms import QuestionForm
@@ -86,3 +88,17 @@ def add_question(request):
         context['question_form']=question_form
 
     return render(request, 'question/add_question.html', context)
+
+
+@login_required
+def subscribe_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    question.subscribers.add(request.user)
+    return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )
+
+
+@login_required
+def unsubscribe_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    question.subscribers.remove(request.user)
+    return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )

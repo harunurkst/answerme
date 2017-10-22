@@ -23,8 +23,10 @@ from django.views.generic import RedirectView
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/', include('accounts.urls')),
+    url(r'^notification/', include('notification.urls')),
     url(r'^qs/', include('question.urls')),
     url(r'^$', RedirectView.as_view(url='qs', permanent=False)),
 ]
 
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

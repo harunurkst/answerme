@@ -4,15 +4,22 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserForm, ProfileForm
 from question.models import Question
+from notification.models import Notification
+
+from .forms import UserForm, ProfileForm
 
 
 @login_required
 def dashboard(request):
     question_list = Question.objects.filter(user=request.user) # all question of current user
+    all_notifications = Notification.objects.filter(question__subscribers__id=request.user.pk)
+    new_notifications = all_notifications.exclude(id__in=request.user.profile.get_read_notifications_id())
+
     context = {'user':request.user,
-               'question_list':question_list}
+               'question_list':question_list,
+               'notifications': new_notifications,
+        }
     return render(request, 'accounts/dashboard.html', context)
 
 @login_required
