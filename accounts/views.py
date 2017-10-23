@@ -12,13 +12,16 @@ from .forms import UserForm, ProfileForm
 
 @login_required
 def dashboard(request):
-    question_list = Question.objects.filter(user=request.user) # all question of current user
-    all_notifications = Notification.objects.filter(question__subscribers__id=request.user.pk)
-    new_notifications = all_notifications.exclude(id__in=request.user.profile.get_read_notifications_id())
+    asked_question_list = Question.objects.filter(user=request.user) # all question asked by current user
+    subscribed_question_list = request.user.subscribed.all() # all question subscribed by current user
+
+    all_notifications = Notification.objects.filter(question__subscribers__id=request.user.pk) # all notifications for current user
+    new_notifications = all_notifications.exclude(id__in=request.user.profile.get_read_notifications_id()) # filter unread notification from all notification
 
     context = {'user':request.user,
-               'question_list':question_list,
-               'notifications': new_notifications,
+               'asked_question_list':asked_question_list,
+               'subscribed_question_list':subscribed_question_list,
+               'new_notifications': new_notifications,
         }
     return render(request, 'accounts/dashboard.html', context)
 

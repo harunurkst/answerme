@@ -2,26 +2,28 @@
 
 <html>
     <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
-              integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}" >
+
         <title>{% block title %}Answerme{% endblock %}</title>
     </head>
     <body>
-        <div class="container">
-            <div class="row">
-                <div class="col-sm-6">
+        <div class="container-fluid">
 
                     {% include 'accounts/snippets/header.html' %}
 
                     {% block content %}
                     {% endblock %}
-                </div>
-            </div>
+
+
         </div>
 
         <script src="{% static 'question/js/jquery-3.2.1.min.js' %}"></script>
         <script src="{% static 'question/js/jquery.waypoints.min.js' %}"></script>
         <script src="{% static 'question/js/infinite.min.js' %}"></script>
+
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+
 
         {% block javascript %}
         {% endblock %}

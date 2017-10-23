@@ -1,5 +1,5 @@
 <h4>notifications</h4>
-{% for notification in notifications %}
+{% for notification in new_notifications %}
     {{ notification.text }} | <a href="{% url 'notification:mark_read' notification_id=notification.id %}">mark as read</a> <br />
 {% empty %}
     <h4>no new notification</h4>

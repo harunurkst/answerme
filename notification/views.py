@@ -1,5 +1,21 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
+
+from .models import Notification
+
+
+@login_required
+def new_notifications(request):
+    # all notifications for current user
+    all_notifications = Notification.objects.filter(
+        question__subscribers__id=request.user.pk)
+
+    # filter unread notification from all notification
+    new_notifications = all_notifications.exclude(
+        id__in=request.user.profile.get_read_notifications_id())
+
+    context = {'new_notifications': new_notifications}
+    return render(request, 'notification/new_notifications.html', context)
 
 
 @login_required

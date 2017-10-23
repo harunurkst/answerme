@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # third party apps
-    'notify',
+
 
     # custom apps
     'question',

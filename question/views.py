@@ -2,7 +2,6 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 
-
 from .models import Question
 from .forms import QuestionForm
 from answer.models import Answer
@@ -13,6 +12,7 @@ def index(request):
     # all question list for displaying on home page
     # retrieve question queryset
     questions = Question.objects.filter(is_banned=False)
+
 
     # adding paginator
     page = request.GET.get('page', 1)
