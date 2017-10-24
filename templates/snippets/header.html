@@ -40,7 +40,7 @@
                                     <div class="tab-content" >
 
                                         <div id="notification">
-                                            {% include 'notification/new_notifications.html' %}
+                                            {% include 'notification/notifications.html' %}
                                         </div>
 
                                     </div>
@@ -77,11 +77,11 @@
         function loadNotifications() {
           var xhttp = new XMLHttpRequest();
           xhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
+            if (this.readyState === 4 && this.status === 200) {
              document.getElementById("notification").innerHTML = this.responseText;
             }
           };
-          xhttp.open("GET", "{% url 'notification:new_notifications' %}", true);
+          xhttp.open("GET", "{% url 'notification:notifications' %}", true);
           xhttp.send();
         }
     </script>

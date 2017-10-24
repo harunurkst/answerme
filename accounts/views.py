@@ -5,7 +5,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
 from question.models import Question
-from notification.models import Notification
 
 from .forms import UserForm, ProfileForm
 
@@ -15,13 +14,9 @@ def dashboard(request):
     asked_question_list = Question.objects.filter(user=request.user) # all question asked by current user
     subscribed_question_list = request.user.subscribed.all() # all question subscribed by current user
 
-    all_notifications = Notification.objects.filter(question__subscribers__id=request.user.pk) # all notifications for current user
-    new_notifications = all_notifications.exclude(id__in=request.user.profile.get_read_notifications_id()) # filter unread notification from all notification
-
     context = {'user':request.user,
                'asked_question_list':asked_question_list,
                'subscribed_question_list':subscribed_question_list,
-               'new_notifications': new_notifications,
         }
     return render(request, 'accounts/dashboard.html', context)
 

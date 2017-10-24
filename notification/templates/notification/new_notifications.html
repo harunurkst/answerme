@@ -1,5 +1,0 @@
-{% for notification in new_notifications %}
-    <small>{{ notification.text }} | <a href="{% url 'notification:mark_read' notification_id=notification.id %}">mark as read</a></small><br />
-{% empty %}
-    no new notification
-{% endfor %}
