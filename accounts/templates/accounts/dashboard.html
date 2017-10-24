@@ -1,4 +1,4 @@
-{% extends 'accounts/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <div class="row">
@@ -21,8 +21,6 @@
 
         <br/><hr/>
 
-        <p>{% include 'accounts/snippets/new_notifications.html' %}</p><br />
-
         <div class="col-sm-4">
             <strong>your asked questions</strong><br/>
             {% for question in asked_question_list %}
@@ -30,7 +28,7 @@
             {% empty %}
                 <i>you have not asked any question yet.</i>
             {% endfor %}
-        </div><hr />
+        </div>
 
         <div class="col-sm-4">
             <strong>your subscribed questions</strong><br/>

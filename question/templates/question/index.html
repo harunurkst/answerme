@@ -1,4 +1,4 @@
-{% extends 'question/base.html' %}
+{% extends 'base.html' %}
 {% load subscription %}
 
 {% block title %}{{ block.super }} | all question{% endblock %}
@@ -73,9 +73,7 @@
         Loading...
     </div>
 
-    {% comment %}
-    javascripts snippets specifit for these page
-    {% endcomment %}
+
     {% block javascript %}
         <script>
             var infinite = new Waypoint.Infinite({
@@ -88,7 +86,6 @@
                 }
             });
         </script>
-
     {% endblock %}
 
     </div>

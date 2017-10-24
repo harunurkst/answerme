@@ -17,7 +17,7 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="loadNotifications()">Notification</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal" id="nf" onclick="loadNotifications()">Notification</a></li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
                 {% else %}
                     <li>
@@ -37,8 +37,12 @@
                                         <button type="button" class="btn btn-link glyphicon glyphicon-remove"
                                                 data-dismiss="modal"></button>
                                     </p>
-                                    <div class="tab-content">
-                                        <p id="notification">notification texts</p>
+                                    <div class="tab-content" >
+
+                                        <div id="notification">
+                                            {% include 'notification/new_notifications.html' %}
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>
@@ -69,16 +73,16 @@
 </nav><!-- /.navbar -->
 
 {% block javascript %}
-<script>
-    function loadNotifications() {
-      var xhttp = new XMLHttpRequest();
-      xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-         document.getElementById("notification").innerHTML = this.responseText;
+    <script>
+        function loadNotifications() {
+          var xhttp = new XMLHttpRequest();
+          xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+             document.getElementById("notification").innerHTML = this.responseText;
+            }
+          };
+          xhttp.open("GET", "{% url 'notification:new_notifications' %}", true);
+          xhttp.send();
         }
-      };
-      xhttp.open("GET", "{% url 'notification:new_notifications' %}", true);
-      xhttp.send();
-    }
-</script>
+    </script>
 {% endblock %}
