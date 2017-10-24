@@ -27,6 +27,10 @@ def mark_as_read(request, notification_id):
     return redirect(question.get_absolute_url())
 
 @login_required
-def mark_all_as_read(request, notification_id):
+def remove_all_notifications(request):
+    all_notification_of_current_user = Notification.objects.filter(subscribers_ids__contains=request.user.id)
+    for notification in all_notification_of_current_user:
+        notification.delete()
+
     # redirect to previous url (where form was submitted )
     return redirect(request.META['HTTP_REFERER'])

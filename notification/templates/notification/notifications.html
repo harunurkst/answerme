@@ -5,7 +5,10 @@
         at: {{ notification.created|naturaltime }}
         | <a href="{% url 'notification:mark_read' notification_id=notification.id %}">read</a>
     </small><br />
-
+    {% if forloop.last %}
+        <hr/>
+        <a href="{% url 'notification:remove_all' %}" style="color:red">remove all notifications</a>
+    {% endif %}
 {% empty %}
     no new notification
 {% endfor %}

@@ -9,5 +9,5 @@ urlpatterns = [
     url(r'^$', views.notifications, name='notifications'),
 
     url(r'^(?P<notification_id>\d+)/mark_read/$', views.mark_as_read, name='mark_read'),
-    url(r'^(?P<notification_id>\d+)/mark_all_read/$', views.mark_all_as_read, name='mark_all_read'),
+    url(r'^remove_all_notifications/$', views.remove_all_notifications, name='remove_all'),
 ]
