@@ -28,20 +28,22 @@
         {% block javascript %}
         {% endblock %}
 
-        <script>
-            $(document).ready(function() {
-            $.ajaxSetup({ cache: false });
-            setInterval(function() {
-            var notification = $('#notification').load("{% url 'notification:new_notifications' %}");
+        {% if request.user.is_authenticated %}
+            <script>
+                $(document).ready(function() {
+                $.ajaxSetup({ cache: false });
+                setInterval(function() {
+                var notification = $('#notification').load("{% url 'notification:new_notifications' %}");
 
-            if (notification.text().length > 26){
-                $('#nf').css({'color':'red'});
-            } else {
-                $('#nf').css({'color':'#777'});
-            }
-            }, 1000);
-            });
-        </script>
+                if (notification.text().length > 26){
+                    $('#nf').css({'color':'red'});
+                } else {
+                    $('#nf').css({'color':'#777'});
+                }
+                }, 1000);
+                });
+            </script>
+        {% endif %}
 
     </body>
 </html>
