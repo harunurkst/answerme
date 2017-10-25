@@ -81,6 +81,8 @@ def add_question(request):
             qs.text = qs_text
             if request.user.is_authenticated():
                 qs.user = request.user
+                qs.save()
+                qs.subscribers.add(request.user) # add asker as subscriber of his question
             qs.save()
             return redirect('question:detail', pk=qs.id)
     else:
