@@ -4,15 +4,20 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserForm, ProfileForm
 from question.models import Question
+
+from .forms import UserForm, ProfileForm
 
 
 @login_required
 def dashboard(request):
-    question_list = Question.objects.filter(user=request.user) # all question of current user
+    asked_question_list = Question.objects.filter(user=request.user) # all question asked by current user
+    subscribed_question_list = request.user.subscribed.all() # all question subscribed by current user
+
     context = {'user':request.user,
-               'question_list':question_list}
+               'asked_question_list':asked_question_list,
+               'subscribed_question_list':subscribed_question_list,
+        }
     return render(request, 'accounts/dashboard.html', context)
 
 @login_required

@@ -7,7 +7,7 @@ from question.models import Question
 
 class Answer(models.Model):
     user       = models.ForeignKey(User, on_delete= models.SET_NULL, null=True, blank=True)
-    question   = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question   = models.ForeignKey(Question, on_delete=models.CASCADE, related_name='answers')
     text       = models.TextField()
 
     created    = models.DateTimeField(auto_now=True)

@@ -1,0 +1,160 @@
+.navbar-brand {
+    position: relative;
+    z-index: 2;
+}
+
+.navbar-nav.navbar-right .btn {
+    position: relative;
+    z-index: 2;
+    padding: 4px 20px;
+    margin: 10px auto;
+}
+
+.navbar .navbar-collapse {
+    position: relative;
+}
+
+.navbar .navbar-collapse .navbar-right > li:last-child {
+    padding-left: 22px;
+}
+
+.navbar .nav-collapse {
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    padding-right: 120px;
+    padding-left: 80px;
+    width: 100%;
+}
+
+.navbar.navbar-default .nav-collapse {
+    background-color: #f8f8f8;
+}
+
+.navbar.navbar-inverse .nav-collapse {
+    background-color: #222;
+}
+
+.navbar .nav-collapse .navbar-form {
+    border-width: 0;
+    box-shadow: none;
+}
+
+.nav-collapse > li {
+    float: right;
+}
+
+.btn.btn-circle {
+    border-radius: 50px;
+}
+
+.btn.btn-outline {
+    background-color: transparent;
+}
+
+.nav-tabs-zawodnik {
+    border-bottom: 0px solid #DDD;
+}
+
+.nav-tabs-zawodnik > li.active > a, .nav-tabs > li.active > a:focus, .nav-tabs > li.active > a:hover {
+    border-width: 0;
+}
+
+.nav-tabs > li > a {
+    border: none;
+    color: #337ab7;
+    font-size: 18px;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li > a:hover {
+    border: none;
+    color: #337ab7 !important;
+    background: transparent;
+}
+
+.nav-tabs > li > a::after {
+    content: "";
+    background: #337ab7;
+    height: 2px;
+    position: absolute;
+    width: 100%;
+    left: 0px;
+    bottom: -1px;
+    transition: all 250ms ease 0s;
+    transform: scale(0);
+}
+
+.nav-tabs > li.active > a::after, .nav-tabs > li:hover > a::after {
+    transform: scale(1);
+}
+
+.tab-nav > li > a::after {
+    background: #337ab7 none repeat scroll 0% 0%;
+    color: #fff;
+}
+
+.tab-pane {
+    padding: 7px 0;
+}
+
+.tab-content {
+    padding: 20px;
+}
+
+.card {
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+    margin-bottom: 30px;
+}
+
+.tabela-zawodnik {
+    border: #FFF;
+}
+
+.tabela-zawodnik > td {
+    height: 15px;
+    vertical-align: super;
+}
+
+.tabela-zawodnik > thead > tr > th,
+.tabela-zawodnik > tbody > tr > th,
+.tabela-zawodnik > tfoot > tr > th,
+.tabela-zawodnik > thead > tr > td,
+.tabela-zawodnik > tbody > tr > td,
+.tabela-zawodnik > tfoot > tr > td {
+    padding: 0px;
+    line-height: 1;
+    vertical-align: super;
+    border-top: 0px solid #ddd;
+}
+
+.tabela-zawodnik > a,
+.tabela-zawodnik > a:hover,
+.tabela-zawodnik > a:focus,
+.tabela-zawodnik > a:active {
+    font-size: 18px;
+}
+
+@media screen and (max-width: 767px) {
+    .navbar .navbar-collapse .navbar-right > li:last-child {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .navbar .nav-collapse {
+        margin: 7.5px auto;
+        padding: 0;
+    }
+
+    .navbar .nav-collapse .navbar-form {
+        margin: 0;
+    }
+
+    .nav-collapse > li {
+        float: none;
+    }
+}

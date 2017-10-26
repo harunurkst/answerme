@@ -1,9 +1,13 @@
-{% extends 'question/base.html' %}
+{% extends 'base.html' %}
+{% load subscription %}
 
 {% block title %}{{ block.super }} | all question{% endblock %}
 
 
 {% block content %}
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
     <strong>question: </strong>{{ question.text }}<br /><br />
     <strong>asked by: </strong>{% if question.user %}
                                     {{ question.user }}
@@ -16,14 +20,18 @@
     <strong>total vote: </strong>{{ question.upvote }}<br />
 
     <hr />
+    {% if request.user.is_authenticated %}
+        {% subscription_button request.user question.id %}<hr />
+    {% endif %}
+
     <div style="margin-left:20px;margin-top:20px">
         {% if answer_saved %}
             <p style="color:green">Your submitted answer has been added!</p>
         {% endif %}
 
-        {% if question.answer_set.all %}
+        {% if question.answers.all %}
             <p>Answers</p>
-            {% for answer in question.answer_set.all %}
+            {% for answer in question.answers.all %}
                 <p><strong>{{ answer.text }}</strong></p>
                 <p>by: {% if answer.user %}
                         {{ answer.user }}
@@ -54,4 +62,6 @@
     </div>
 
     <a href="{% url 'question:index' %}">return home</a>
+    </div>
+    </div>
 {% endblock %}

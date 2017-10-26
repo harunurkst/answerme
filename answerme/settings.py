@@ -31,19 +31,23 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    # builtin apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
 
-    #isntalled apps
+    # third party apps
 
-    #custom apps
+
+    # custom apps
     'question',
     'answer',
     'accounts',
+    'notification',
 ]
 
 MIDDLEWARE = [
@@ -62,7 +66,7 @@ ROOT_URLCONF = 'answerme.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

@@ -1,9 +1,12 @@
-{% extends 'question/base.html' %}
+{% extends 'base.html' %}
+{% load subscription %}
 
 {% block title %}{{ block.super }} | all question{% endblock %}
 
 
 {% block content %}
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
     <div>
         {% include 'question/snippets/question_form.html' %}
     </div>
@@ -20,7 +23,8 @@
                                                                                     {{ question.user.profile.photo.url }}
                                                                                 {% else %}
                                                                                     http://placehold.it/64x64
-                                                                                 {% endif %}" height="100px" width="100px">
+                                                                                 {% endif %}" height="100px"
+                                 width="100px">
                         </a>
                         Asked by:
                         <small>{% if question.user %}
@@ -34,13 +38,16 @@
                         <p class="ml-2">{{ question }}</p>
 
                         <p>
-                            <small>Total Answer: {{ question.answer_set.count }}
+                            <small>Total Answer: {{ question.answers.count }}
                                 <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
+                                {% if request.user.is_authenticated %}
+                                    {% subscription_button request.user question.id %}
+                                {% endif %}
                             </small>
                         </p>
                         <div style="margin-left:20px;margin-top:20px">
-                            {% for answer in question.answer_set.all %}
-                                
+                            {% for answer in question.answers.all %}
+
                                 <small><strong>
                                     {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong>
                                 </small>
@@ -66,9 +73,7 @@
         Loading...
     </div>
 
-    {% comment %}
-    javascripts snippets specifit for these page
-    {% endcomment %}
+
     {% block javascript %}
         <script>
             var infinite = new Waypoint.Infinite({
@@ -81,8 +86,10 @@
                 }
             });
         </script>
-
     {% endblock %}
+
+    </div>
+    </div>
 {% endblock %}
 
 

@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.decorators import login_required
 
 from .models import Question
 from .forms import QuestionForm
@@ -11,6 +12,7 @@ def index(request):
     # all question list for displaying on home page
     # retrieve question queryset
     questions = Question.objects.filter(is_banned=False)
+
 
     # adding paginator
     page = request.GET.get('page', 1)
@@ -79,6 +81,8 @@ def add_question(request):
             qs.text = qs_text
             if request.user.is_authenticated():
                 qs.user = request.user
+                qs.save()
+                qs.subscribers.add(request.user) # add asker as subscriber of his question
             qs.save()
             return redirect('question:detail', pk=qs.id)
     else:
@@ -86,3 +90,17 @@ def add_question(request):
         context['question_form']=question_form
 
     return render(request, 'question/add_question.html', context)
+
+
+@login_required
+def subscribe_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    question.subscribers.add(request.user)
+    return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )
+
+
+@login_required
+def unsubscribe_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    question.subscribers.remove(request.user)
+    return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )
