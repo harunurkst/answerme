@@ -63,7 +63,7 @@ def mark_as_unread(request, notification_id):
 
 
 @login_required
-def mark_as_read_all_notifications(request):
+def mark_all_as_read(request):
     # retrieve all notifications of current user
     all_notifications = Notification.objects.filter(
         question__subscribers__id=request.user.id
@@ -75,5 +75,5 @@ def mark_as_read_all_notifications(request):
     for notification in unread_notifications:
         notification.mark_as_read()
 
-    # redirect to previous url (where mark all notifications as read was submitted )
+    # redirect to previous url (where mark_all_as_read was submitted )
     return redirect(request.META['HTTP_REFERER'])
