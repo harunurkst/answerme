@@ -42,7 +42,6 @@ INSTALLED_APPS = [
 
     # third party apps
 
-
     # custom apps
     'question',
     'answer',

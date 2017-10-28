@@ -81,7 +81,7 @@
              document.getElementById("notification").innerHTML = this.responseText;
             }
           };
-          xhttp.open("GET", "{% url 'notification:notifications' %}", true);
+          xhttp.open("GET", "{% url 'notification:unread_notifications' %}", true);
           xhttp.send();
         }
     </script>

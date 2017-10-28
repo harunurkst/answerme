@@ -65,6 +65,7 @@ def question_detail(request, pk):
         answer_form = AnswerForm()
         context['answer_form']=answer_form
 
+
     return render(request, 'question/detail.html', context)
 
 
