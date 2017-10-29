@@ -11,7 +11,7 @@
         {% include 'question/snippets/question_form.html' %}
     </div>
 
-    <h2>All Questions</h2>
+    <h2>All Questions{% if tag %} tagged with "{{ tag.name }}"{% endif %}</h2>
     <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
     <div class="infinite-container">
         {% for question in questions %}
@@ -45,6 +45,19 @@
                                 {% endif %}
                             </small>
                         </p>
+
+                        <p>
+                            <small>
+                                {% for tag in question.tags.all %}
+                                    {% if forloop.first %}Tags:{% endif %}
+                                    <a href="{% url "question:questions_by_tag" tag.slug %}">
+                                      {{ tag.name }}
+                                    </a>
+                                    {% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </small>
+                        </p>
+
                         <div style="margin-left:20px;margin-top:20px">
                             {% for answer in question.answers.all %}
 

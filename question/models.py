@@ -2,6 +2,8 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 
+from taggit.managers import TaggableManager
+
 class Question(models.Model):
     user       = models.ForeignKey(User, on_delete= models.SET_NULL, null=True, blank=True)
     text       = models.TextField()
@@ -9,6 +11,7 @@ class Question(models.Model):
     updated    = models.DateTimeField(auto_now_add=True)
     upvote     = models.PositiveIntegerField(default=0)
     is_banned  = models.BooleanField(default=False)
+    tags       = TaggableManager(blank=True)
     subscribers= models.ManyToManyField(User, related_name='subscribed')
 
     def get_absolute_url(self):

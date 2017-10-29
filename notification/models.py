@@ -24,22 +24,8 @@ class Notification(models.Model):
         self.save()
         return 'marked as unread'
 
-    # def mark_as_read(self, user_id):
-    #     subscribers_id_list = self.get_subscribers_ids()
-    #     if user_id in subscribers_id_list:
-    #         subscribers_id_list.remove(user_id)
-    #
-    #     # remove notification from database
-    #     # if there is no subscriber for notification
-    #     if len(subscribers_id_list) < 1:
-    #         self.delete()
-    #     else:
-    #         # save subscriber list if there is any subscriber
-    #         self.subscribers_ids = ','+str(subscribers_id_list)
-    #         self.save()
-    #
-    #     return 'marked as read'
-
-
     def __str__(self):
         return self.text
+
+    class Meta:
+        ordering = ['-created']
