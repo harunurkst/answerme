@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     # third party apps
-    'taggit',
 
     # custom apps
     'question',
     'answer',
     'accounts',
     'notification',
+    'tagory', # tag and category
 ]
 
 MIDDLEWARE = [

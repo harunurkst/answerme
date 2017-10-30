@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 
-from taggit.models import Tag
-
 from .models import Question
-from .forms import QuestionForm, TagForm
+from .forms import QuestionForm
 from answer.models import Answer
 from answer.forms import AnswerForm
+from tagory.models import Tag
+from tagory.forms import TagForm
 
 
 def index(request, tag_slug=None):
@@ -101,9 +101,14 @@ def add_question(request):
                 # if tag field is not empty
                 if tags:
                     # tag string splited into list, separeted (splited) by comma.
-                    # then expend this tag list into multiple arguments of
-                    # add method as he expected.
-                    qs.tags.add(*tags.split(','))
+                    # then create tag object for every new tag or get existing tag
+                    # and add those tags into question
+                    for tag in tags.split(','):
+                        tag_object, created = Tag.objects.get_or_create(name=tag.strip())
+                        # adding tag_object to question.tags
+                        qs.tags.add(tag_object)
+
+
 
             # add current user as asker if user is authenticated
             if request.user.is_authenticated():

@@ -15,18 +15,6 @@
             Anonymous User
         {% endif %}<br/>
 
-            <p>
-                <small>
-                    {% for tag in question.tags.all %}
-                        {% if forloop.first %}Tags:{% endif %}
-                        <a href="{% url "question:questions_by_tag" tag.slug %}">
-                            {{ tag.name }}
-                        </a>
-                        {% if not forloop.last %}, {% endif %}
-                    {% endfor %}
-                </small>
-            </p>
-
             <strong>asked at: </strong>{{ question.created }}<br/>
             <strong>last update: </strong>{{ question.updated }}<br/>
             <strong>total vote: </strong>{{ question.upvote }}<br/>
