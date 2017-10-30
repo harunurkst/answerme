@@ -1,0 +1,6 @@
+{
+	"deploy": {
+		"module":"answerme.wsgi:application",
+		"managetasks":["migrate", "createsuperuser_automatic"]
+	}
+}

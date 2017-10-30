@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load subscription %}
+
+{% block title %}{{ block.super }} | all question{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+    <div>
+        {% include 'question/snippets/question_form.html' %}
+    </div>
+
+    <h2>All Questions</h2>
+    <p><a href="{% url 'question:add_question' %}">Ask a question</a></p>
+    <div class="infinite-container">
+        {% for question in questions %}
+            <div class="infinite-item">
+                <div class="card mt-2">
+                    <div class="card-header card-title">
+                        <a class="media-left" href="#">
+                            <img alt="" class="media-object img-rounded" src="{% if question.user.profile.photo %}
+                                                                                    {{ question.user.profile.photo.url }}
+                                                                                {% else %}
+                                                                                    http://placehold.it/64x64
+                                                                                 {% endif %}" height="100px"
+                                 width="100px">
+                        </a>
+                        Asked by:
+                        <small>{% if question.user %}
+                            {{ question.user.username }}
+                        {% else %}
+                            Anonymous User
+                        {% endif %}
+                        </small>
+                    </div>
+                    <div class="card-block card-text p-2">
+                        <p class="ml-2">{{ question }}</p>
+
+                        <p>
+                            <small>Total Answer: {{ question.answers.count }}
+                                <a href="{% url 'question:detail' pk=question.pk %}">detail</a>
+                                {% if request.user.is_authenticated %}
+                                    {% subscription_button request.user question.id %}
+                                {% endif %}
+                            </small>
+                        </p>
+                        <div style="margin-left:20px;margin-top:20px">
+                            {% for answer in question.answers.all %}
+
+                                <small><strong>
+                                    {% if answer.user %}{{ answer.user }}{% else %}Anonymous User{% endif %}</strong>
+                                </small>
+                                <small>{{ answer.text }}</small><br>
+                            {% endfor %}
+                        </div>
+
+                        <div>
+                            {% include 'question/snippets/answer_form.html' %}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if questions.has_next %}
+        <a class="infinite-more-link" href="?page={{ questions.next_page_number }}">More</a>
+    {% endif %}
+
+    <div class="loading" style="display: none;">
+        Loading...
+    </div>
+
+
+    {% block javascript %}
+        <script>
+            var infinite = new Waypoint.Infinite({
+                element: $('.infinite-container')[0],
+                onBeforePageLoad: function () {
+                    $('.loading').show();
+                },
+                onAfterPageLoad: function ($items) {
+                    $('.loading').hide();
+                }
+            });
+        </script>
+    {% endblock %}
+
+    </div>
+    </div>
+{% endblock %}
+
+

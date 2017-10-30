@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load subscription %}
+
+{% block title %}{{ block.super }} | all question{% endblock %}
+
+
+{% block content %}
+    <div class="row">
+    <div class="col-md-6 col-md-offset-3">
+
+    <strong>question: </strong>{{ question.text }}<br /><br />
+    <strong>asked by: </strong>{% if question.user %}
+                                    {{ question.user }}
+                                {% else %}
+                                    Anonymous User
+                                {% endif %}<br />
+
+    <strong>asked at: </strong>{{ question.created }}<br />
+    <strong>last update: </strong>{{ question.updated }}<br />
+    <strong>total vote: </strong>{{ question.upvote }}<br />
+
+    <hr />
+    {% if request.user.is_authenticated %}
+        {% subscription_button request.user question.id %}<hr />
+    {% endif %}
+
+    <div style="margin-left:20px;margin-top:20px">
+        {% if answer_saved %}
+            <p style="color:green">Your submitted answer has been added!</p>
+        {% endif %}
+
+        {% if question.answers.all %}
+            <p>Answers</p>
+            {% for answer in question.answers.all %}
+                <p><strong>{{ answer.text }}</strong></p>
+                <p>by: {% if answer.user %}
+                        {{ answer.user }}
+                    {% else %}
+                        Anonymous User
+                    {% endif %}</p>
+
+                <p>created at: {{ answer.created }}</p>
+
+                <p>{% if answer.accepted %}
+                        <strong style="color:forestgreen">Eccepted Answer</strong>
+                    {% endif %}
+                </p>
+                <hr />
+            {% endfor %}
+        {% endif %}
+
+        <h6>Add answer</h6>
+        <div class="container">
+            <form action="" method="POST" class="mt-3">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ answer_form.as_p }}
+                    <input type="submit" value="Submit" class="btn btn-primary">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <a href="{% url 'question:index' %}">return home</a>
+    </div>
+    </div>
+{% endblock %}
