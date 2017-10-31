@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+from allauth.socialaccount.models import SocialAccount
+from django.contrib.auth.models import User
 
 from .models import Question
 from .forms import QuestionForm
@@ -104,3 +106,11 @@ def unsubscribe_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     question.subscribers.remove(request.user)
     return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )
+
+@login_required
+def Name(request):
+    return render(request, 'question/home.html')
+
+
+def FacebookLogin(request):
+    return render(request, 'allauth/account/login.html')
