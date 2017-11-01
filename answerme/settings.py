@@ -39,8 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-
-    # third party apps
+    'django.contrib.sites',
 
     # custom apps
     'question',
@@ -48,7 +47,18 @@ INSTALLED_APPS = [
     'accounts',
     'notification',
     'tagory', # tag and category
+
+    # third party apps
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+
+    # django-allauth Facebook Login
+    'allauth.socialaccount.providers.facebook',
+
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -151,3 +161,14 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES['default'].update(db_from_env)
+
+# django-allauth autherication
+AUTHENTICATION_BACKENDS = (
+
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+)
+LOGIN_REDIRECT_URL = 'home'

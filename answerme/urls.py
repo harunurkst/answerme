@@ -22,11 +22,12 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^accounts/', include('accounts.urls')),
+    url(r'^account/', include('accounts.urls')),
     url(r'^notification/', include('notification.urls')),
     url(r'^tagory/', include('tagory.urls')),
     url(r'^qs/', include('question.urls')),
     url(r'^$', RedirectView.as_view(url='qs', permanent=False)),
+    url(r'^accounts/', include('allauth.urls')),  # django-allauth default url
 ]
 
 if settings.DEBUG:
