@@ -1,17 +1,20 @@
 {% extends 'base.html' %}
-
+{% load socialaccount %}
+{% providers_media_js %}
 {% block content %}
   <h1>login</h1>
- 
- 
+
+
   <form class='form' id="login_form" method="post" action="">
             {% csrf_token %}
             Username: <input type="text" name="username" value="" size="50" />
             <br />
             Password: <input type="password" name="password" value="" size="50" />
             <br />
- 
+
             <input type="submit" value="login" />
   </form>
 
-{% endblock content %}
+    <h1>OR</h1>
+ <a href="{% provider_login_url 'facebook' process='login' %}">Login with Facebook</a>
+{% endblock  %}

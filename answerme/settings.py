@@ -25,7 +25,7 @@ SECRET_KEY = '!9n7zgcl)z1r8)j6fpe=!aw#v6i_3oqyq%w)u8al5%ub_8i6!6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -169,4 +169,4 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 
 )
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'accounts:profile'
