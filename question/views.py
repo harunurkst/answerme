@@ -143,10 +143,3 @@ def unsubscribe_question(request, question_id):
     question.subscribers.remove(request.user)
     return redirect(request.META['HTTP_REFERER'])  # redirect to same url (where form was submitted )
 
-@login_required
-def Name(request):
-    return render(request, 'question/home.html')
-
-
-def FacebookLogin(request):
-    return render(request, 'allauth/account/login.html')
