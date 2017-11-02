@@ -7,6 +7,7 @@ from django.dispatch import receiver
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     photo = models.ImageField(upload_to='profile_photo/', blank=True)
+    #profile_pic_url = models.CharField(max_length=256, blank=True, null=True)
     website = models.URLField(blank=True)
     location = models.CharField(max_length=50, blank=True)
 

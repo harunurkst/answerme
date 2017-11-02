@@ -59,8 +59,9 @@ def user_login(request):
             return redirect('accounts:profile')
         else:
             return redirect('accounts:login')
-    return render(request, 'accounts/login.html')
+    return render(request, 'allauth/account/login.html')
 
 def user_logout(request):
     logout(request)
     return redirect('question:index')
+
