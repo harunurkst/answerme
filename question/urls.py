@@ -14,6 +14,4 @@ urlpatterns = [
 
     url(r'^subscribe/(?P<question_id>\d+)/', views.subscribe_question, name='subscribe'),
     url(r'^unsubscribe/(?P<question_id>\d+)/', views.unsubscribe_question, name='unsubscribe'),
-
-
 ]

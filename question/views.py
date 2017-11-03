@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
-from allauth.socialaccount.models import SocialAccount
-from django.contrib.auth.models import User
 
 from .models import Question
 from .forms import QuestionForm
@@ -87,7 +85,8 @@ def question_detail(request, pk):
 def add_question(request):
     context = {}
     if request.method == 'POST':
-        question_form = QuestionForm(request.POST) # form instance for post request
+        question_form = QuestionForm(request.POST) # question form instance for post request
+        tag_form = TagForm(request.POST) # tag form instance for post request
         context['question_form']= question_form
 
         if question_form.is_valid():
