@@ -1,11 +1,13 @@
-
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+
+from channels import Group
 
 from answer.models import Answer
 from .models import Notification
 
 
+# create notification after created any answer
 @receiver(post_save, sender=Answer)
 def create_notification(sender, instance, created, **kwargs):
     if created:
@@ -25,3 +27,9 @@ def create_notification(sender, instance, created, **kwargs):
             # insert subscriber_id_list in notification.subscribers_ids as comma separated id list
             notification.subscribers_ids = ','.join(subscriber_id_list)
             notification.save() # save notification
+
+            # send notification alert on websocket
+            # by channel Group
+            Group("question_id_{}".format(notification.question.id)).send({
+                "text": notification.text,
+            })

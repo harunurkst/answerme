@@ -28,12 +28,8 @@
                                          width="100px">
                                 </a>
                                 Asked by:
-                                <small>{% if question.user %}
-                                    {{ question.user.username }}
-                                {% else %}
-                                    Anonymous User
-                                {% endif %}
-                                </small>
+                                <small>{{ question.user.username|default:"Anonymous User" }}</small>
+
                             </div>
                             <div class="card-block card-text p-2">
                                 <p class="ml-2">{{ question }}</p>
@@ -59,9 +55,10 @@
                                 <div style="margin-left:20px;margin-top:20px">
                                     {% for answer in question.answers.all %}
 
-                                        <small><strong>
-                                            {% if answer.user %}{{ answer.user }}{% else %}Anonymous
-                                                User{% endif %}</strong>
+                                        <small>
+                                            <strong>
+                                                {{ answer.user|default:"Anonymous User" }}
+                                            </strong>
                                         </small>
                                         <small>{{ answer.text }}</small><br>
                                     {% endfor %}

@@ -17,13 +17,14 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if request.user.is_authenticated %}
                     <li><a href="{% url 'accounts:profile' %}">Profile</a></li>
-                    <li><a href="#" data-toggle="modal" data-target="#myModal" id="nf" onclick="loadNotifications()">Notification</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal" id="nf" onclick="loadNotifications()">Notification</a>
+                    </li>
                     <li><a href="{% url 'accounts:logout' %}">Logout</a></li>
                 {% else %}
                     <li>
-                        <li><a href="{% url 'accounts:login' %}">LogIn</a></li>
-                        <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2"
-                           aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
+                    <li><a href="{% url 'accounts:login' %}">LogIn</a></li>
+                    <a class="btn btn-default btn-outline btn-circle" data-toggle="collapse" href="#nav-collapse2"
+                       aria-expanded="false" aria-controls="nav-collapse2">Sign in</a>
                     </li>
                 {% endif %}
             </ul>
@@ -38,7 +39,7 @@
                                         <button type="button" class="btn btn-link glyphicon glyphicon-remove"
                                                 data-dismiss="modal"></button>
                                     </p>
-                                    <div class="tab-content" >
+                                    <div class="tab-content">
 
                                         <div id="notification">
                                             {% include 'notification/notifications.html' %}
@@ -76,14 +77,14 @@
 {% block javascript %}
     <script>
         function loadNotifications() {
-          var xhttp = new XMLHttpRequest();
-          xhttp.onreadystatechange = function() {
-            if (this.readyState === 4 && this.status === 200) {
-             document.getElementById("notification").innerHTML = this.responseText;
-            }
-          };
-          xhttp.open("GET", "{% url 'notification:unread_notifications' %}", true);
-          xhttp.send();
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("notification").innerHTML = this.responseText;
+                }
+            };
+            xhttp.open("GET", "{% url 'notification:unread_notifications' %}", true);
+            xhttp.send();
         }
     </script>
 {% endblock %}
