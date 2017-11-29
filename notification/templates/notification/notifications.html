@@ -7,7 +7,7 @@
         </a>
         at: {{ notification.created|naturaltime }} |
 
-        {% if notification.is_unread %}
+        {% if request.user.id in notification.get_unread_subscribers_ids %}
             <a href="{% url 'notification:mark_as_read' notification_id=notification.id %}">mark as read</a>
         {% else %}
             <a href="{% url 'notification:mark_as_unread' notification_id=notification.id %}">mark as unread</a>

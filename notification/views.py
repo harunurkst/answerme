@@ -17,12 +17,9 @@ def all_notifications(request):
 
 @login_required
 def unread_notifications(request):
-    # retrieve all notifications of current user
-    all_notifications = Notification.objects.filter(
-        question__subscribers__id=request.user.id
+    unread_notifications = Notification.objects.filter(
+        unread_subscribers_ids__icontains=request.user.id
     )
-    # filter unread notification from all notifications
-    unread_notifications = all_notifications.filter(is_unread=True)
 
     context = {'notifications': unread_notifications}
     return render(request, 'notification/notifications.html', context)
@@ -32,7 +29,7 @@ def read_notification(request, notification_id):
     # get expected notification object
     notification = get_object_or_404(Notification, id=notification_id)
     # mark notification as read
-    notification.mark_as_read()
+    notification.mark_as_read(request.user.id)
     # get related question of this notification
     # for redirect to question detail
     question = notification.question
@@ -45,7 +42,7 @@ def mark_as_read(request, notification_id):
     # get expected notification object
     notification = get_object_or_404(Notification, id=notification_id)
     # mark notification as read
-    notification.mark_as_read()
+    notification.mark_as_read(request.user.id)
 
     # redirect to previous url (where mark as read button was submitted )
     return redirect(request.META['HTTP_REFERER'])
@@ -56,7 +53,7 @@ def mark_as_unread(request, notification_id):
     # get expected notification object
     notification = get_object_or_404(Notification, id=notification_id)
     # mark notification as unread
-    notification.mark_as_unread()
+    notification.mark_as_unread(request.user.id)
 
     # redirect to previous url (where mark as unread button was submitted )
     return redirect(request.META['HTTP_REFERER'])
@@ -64,16 +61,14 @@ def mark_as_unread(request, notification_id):
 
 @login_required
 def mark_all_as_read(request):
-    # retrieve all notifications of current user
-    all_notifications = Notification.objects.filter(
-        question__subscribers__id=request.user.id
+
+    unread_notifications = Notification.objects.filter(
+        unread_subscribers_ids__icontains=request.user.id
     )
-    # filter unread notification from all notifications
-    unread_notifications = all_notifications.filter(is_unread=True)
 
     # mark all unread notifications as read
     for notification in unread_notifications:
-        notification.mark_as_read()
+        notification.mark_as_read(request.user.id)
 
     # redirect to previous url (where mark_all_as_read was submitted )
     return redirect(request.META['HTTP_REFERER'])
