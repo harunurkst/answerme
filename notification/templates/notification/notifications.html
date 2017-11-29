@@ -1,14 +1,25 @@
 {% load humanize %}
 
 {% for notification in notifications %}
-    <small>{{ notification.text }}
-        at: {{ notification.created|naturaltime }}
-        | <a href="{% url 'notification:mark_read' notification_id=notification.id %}">read</a>
+    <small>
+        <a href="{% url 'notification:read_notification' notification_id=notification.id %}">
+            {{ notification.text }}
+        </a>
+        at: {{ notification.created|naturaltime }} |
+
+        {% if request.user.id in notification.get_unread_subscribers_ids %}
+            <a href="{% url 'notification:mark_as_read' notification_id=notification.id %}">mark as read</a>
+        {% else %}
+            <a href="{% url 'notification:mark_as_unread' notification_id=notification.id %}">mark as unread</a>
+        {% endif %}
     </small><br />
+
     {% if forloop.last %}
         <hr/>
-        <a href="{% url 'notification:remove_all' %}" style="color:red">remove all notifications</a>
+        <a href="{% url 'notification:all_notifications' %}">all notifications</a>
+        <a href="{% url 'notification:mark_all_as_read' %}">mark all as read</a>
     {% endif %}
+
 {% empty %}
     no new notification
 {% endfor %}

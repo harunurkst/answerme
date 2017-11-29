@@ -110,5 +110,4 @@ venv.bak/
 
 #pycharm
 .idea/
-
-
+workspace.xml

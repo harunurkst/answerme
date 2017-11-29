@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Tagory Homepage!</h1>
+
+    {% if tags %}
+        <p>
+            {% for tag in tags %}
+                {{ tag.name }}
+            {% endfor %}
+        </p>
+    {% endif %}
+
+    {% if categories %}
+        <p>
+            {% for category in categories %}
+                {{ category.name }}
+            {% endfor %}
+        </p>
+    {% endif %}
+
+{% endblock %}

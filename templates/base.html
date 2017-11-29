@@ -1,48 +1,72 @@
 {% load static %}
 
 <html>
-    <head>
-        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}" >
+<head>
+    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'accounts/css/style.css' %}">
 
-        {% block css %}
-        {% endblock %}
+    {% block css %}
+    {% endblock %}
 
-        <title>{% block title %}Dashboard{% endblock %}</title>
-    </head>
-    <body>
-        <div class="container-fluid">
-                {% include 'snippets/header.html' %}
-                {% block content %}
-                {% endblock %}
-        </div>
-        <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <title>{% block title %}Dashboard{% endblock %}</title>
+</head>
+<body>
+<div class="container-fluid">
+    {% include 'snippets/header.html' %}
+    {% block content %}
+    {% endblock %}
+</div>
 
-        <script src="{% static 'question/js/jquery-3.2.1.min.js' %}"></script>
-        <script src="{% static 'question/js/jquery.waypoints.min.js' %}"></script>
-        <script src="{% static 'question/js/infinite.min.js' %}"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 
-        {% block javascript %}
-        {% endblock %}
 
-        {% if request.user.is_authenticated %}
-            <script>
-                $(document).ready(function() {
-                $.ajaxSetup({ cache: false });
-                setInterval(function() {
-                var notification = $('#notification').load("{% url 'notification:notifications' %}");
+<script src="{% static 'question/js/jquery-3.2.1.min.js' %}"></script>
+<script src="{% static 'question/js/jquery.waypoints.min.js' %}"></script>
+<script src="{% static 'question/js/infinite.min.js' %}"></script>
 
-                if (notification.text().indexOf('read') > 0){
-                    $('#nf').css({'color':'red'});
-                } else {
-                    $('#nf').css({'color':'#777'});
+
+{#javascript for infinite scrolling#}
+
+<script>
+    var infinite = new Waypoint.Infinite({
+        element: $('.infinite-container')[0],
+        onBeforePageLoad: function () {
+            $('.loading').show();
+        },
+        onAfterPageLoad: function ($items) {
+            $('.loading').hide();
+        }
+    });
+</script>
+
+{% if request.user.is_authenticated %}
+    <script>
+        $(document).ready(function () {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+                    document.getElementById("notification").innerHTML = this.responseText;
+                    if (this.responseText.indexOf('read') > 0) {
+                        $('#nf').css({'color': 'red'});
+                    } else {
+                        $('#nf').css({'color': '#777'});
+                    }
                 }
-                }, 1000);
-                });
-            </script>
-        {% endif %}
+            };
+            xhttp.open("GET", "{% url 'notification:unread_notifications' %}", true);
+            xhttp.send();
+        });
 
-    </body>
+
+        socket = new WebSocket("ws://" + window.location.host);
+        socket.onmessage = function (e) {
+            $('#nf').css({'color': 'red'});
+        }
+
+    </script>
+{% endif %}
+
+</body>
 </html>

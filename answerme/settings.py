@@ -25,12 +25,27 @@ SECRET_KEY = '!9n7zgcl)z1r8)j6fpe=!aw#v6i_3oqyq%w)u8al5%ub_8i6!6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    # custom apps
+    'question',
+    'answer',
+    'accounts',
+    'notification',
+    'tagory', # tag and category
+
+    # third party apps
+    'channels',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # django-allauth Facebook Login
+    'allauth.socialaccount.providers.facebook',
+
     # builtin apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,20 +55,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'django.contrib.sites',
-
-    # custom apps
-    'question',
-    'answer',
-    'accounts',
-    'notification',
-
-    # third party apps
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-
-    # django-allauth Facebook Login
-    'allauth.socialaccount.providers.facebook',
 ]
 
 SITE_ID = 1
@@ -170,3 +171,15 @@ AUTHENTICATION_BACKENDS = (
 
 )
 LOGIN_REDIRECT_URL = 'accounts:profile'
+
+
+# Channel settings
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "asgi_redis.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [os.environ.get('REDIS_URL', 'redis://localhost:6379')],
+        },
+        "ROUTING": "answerme.routing.channel_routing",
+    },
+}
